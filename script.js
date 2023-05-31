@@ -2,6 +2,7 @@ import { body, sidebar, logo } from "./DOMref.js";
 
 function application() {
   sidebarHeightResize();
+  formSubmit();
 }
 
 let library = (function () {
@@ -9,21 +10,15 @@ let library = (function () {
   return { bookList };
 })();
 
-// EXTRA CODE WHICH CAN BE BUILT UPON, BUT NOT CURRENTLY NEEDED
-// function Book(book) {
-//   this.book = book;
-// }
+function Book(bookName, bookAuthor, bookPages) {
+  this.bookName = bookName;
+  this.bookAuthor = bookAuthor;
+  this.bookPages = bookPages;
+}
 
-// function addBookToLibrary(book) {
-//   //import
-//   let book = new Book("");
-//   library.bookList.push("oj");
-// }
-
-// let boo = new Book("dog");
-
-// library.bookList.push(boo.book);
-// console.log(library.bookList);
+function addBookToLibrary(book) {
+  library.bookList.push(book);
+}
 
 function sidebarHeightResize() {
   window.addEventListener("resize", function () {
@@ -35,5 +30,28 @@ function sidebarHeightResize() {
   // Trigger the resize event initially to set the sidebar height on page load
   window.dispatchEvent(new Event("resize"));
 }
+
+function formSubmit() {
+  const form = document.querySelector(".form");
+  form.addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent form submission
+
+    const bookName = document.getElementById("book-title").value;
+    const bookAuthor = document.getElementById("book-author").value;
+    const bookPages = document.getElementById("book-pages").value;
+
+    addBookToLibrary(new Book(bookName, bookAuthor, bookPages));
+    // library.bookList.forEach((book) => {
+    //   console.log("Title: " + book.bookName);
+    //   console.log("Author: " + book.bookAuthor);
+    //   console.log("Pages: " + book.bookPages);
+    // });
+    this.reset(); // Reset the form
+  });
+}
+
+// TODO make inputs have patterns
+
+// TODO make cards for books
 
 document.addEventListener("DOMContentLoaded", application);
