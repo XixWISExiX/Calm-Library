@@ -1,0 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+.logo {
+  /* margin-top: 1rem; */
+  margin: 1rem 0;
+  font-size: 3rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.sidebar-main-container {
+  display: flex;
+}
+
+.sidebar {
+  background-color: lightblue;
+  /* TODO Find solution for this */
+  /* height: clamp(10rem, 89.7vh, 55.4rem); */
+}
+
+.form-input-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
