@@ -29,7 +29,7 @@ function sidebarHeightResize() {
   window.addEventListener("resize", function () {
     const logoHeight = logo.offsetHeight;
     const viewportHeight = window.innerHeight;
-    const remainingHeight = viewportHeight - logoHeight * 1.45;
+    const remainingHeight = viewportHeight - logoHeight * 1.31;
     sidebar.style.height = `${remainingHeight}px`;
   });
   // Trigger the resize event initially to set the sidebar height on page load
