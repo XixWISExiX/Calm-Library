@@ -9,6 +9,7 @@
 /* LOGO Section */
 
 .logo {
+  /* TODO span library accross top */
   padding: 1rem 0;
   font-size: 3rem;
   font-weight: 700;
@@ -46,6 +47,7 @@
 }
 
 .form-input {
+  border: 0.1rem solid black;
   border-radius: 2rem;
   font-size: 1.2rem;
   margin: 0.3rem;
@@ -70,4 +72,76 @@
 .book-btn:active {
   background-color: #22c55e;
 }
+
 /* MAIN Section */
+
+.main-container {
+  /* background-color: #a7f3d0; */
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.book-card {
+  margin: 2rem;
+  padding: 2rem;
+  width: 20rem;
+  height: 16rem;
+  background-color: #dcfce7;
+  border-radius: 1rem;
+  box-shadow: 0 0 0.5rem 0.3rem rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-size: 1.5rem;
+}
+
+.book-card-title {
+  margin: 0 -2rem;
+  margin-top: -2rem;
+  /* TODO not dynamic */
+  padding: 1rem 8.25rem;
+  background-color: white;
+  border-radius: 1rem;
+  font-size: 1.7rem;
+  font-weight: 600;
+}
+
+.book-card-author {
+  margin-top: 0.5rem;
+}
+
+.book-card-author,
+.book-card-pages,
+.read-btn {
+  padding: 0.5rem;
+}
+
+.book-card svg {
+  width: 3rem;
+}
+
+.read-btn {
+  margin-top: 0.5rem;
+  /* TODO not dynamic */
+  width: 8rem;
+  min-height: 7rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
+#minus {
+  display: none;
+}
+
+#minus:hover {
+  fill: red;
+}
+
+#check:hover {
+  fill: green;
+}
+
+.delete-btn:hover {
+  fill: red;
+}

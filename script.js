@@ -3,6 +3,7 @@ import { body, sidebar, logo } from "./DOMref.js";
 function application() {
   sidebarHeightResize();
   formSubmit();
+  ifBookReadDisplay();
 }
 
 let library = (function () {
@@ -51,7 +52,20 @@ function formSubmit() {
 }
 
 // TODO make inputs have patterns
+function ifBookReadDisplay() {
+  const svg1 = document.getElementById("check");
+  const svg2 = document.getElementById("minus");
 
+  svg1.addEventListener("click", function () {
+    svg1.style.display = "none";
+    svg2.style.display = "block";
+  });
+
+  svg2.addEventListener("click", function () {
+    svg2.style.display = "none";
+    svg1.style.display = "block";
+  });
+}
 // TODO make cards for books
 
 document.addEventListener("DOMContentLoaded", application);
