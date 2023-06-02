@@ -4,22 +4,6 @@ import { renderBookCard } from "./BookCard.js";
 function application() {
   sidebarHeightResize();
   formSubmit();
-  bookReadDisplay();
-}
-
-let library = (function () {
-  let bookList = [];
-  return { bookList };
-})();
-
-function Book(bookTitle, bookAuthor, bookPages) {
-  this.bookTitle = bookTitle;
-  this.bookAuthor = bookAuthor;
-  this.bookPages = bookPages;
-}
-
-function addBookToLibrary(book) {
-  library.bookList.push(book);
 }
 
 function sidebarHeightResize() {
@@ -33,6 +17,17 @@ function sidebarHeightResize() {
   window.dispatchEvent(new Event("resize"));
 }
 
+let library = (function () {
+  let bookList = [];
+  return { bookList };
+})();
+
+function Book(bookTitle, bookAuthor, bookPages) {
+  this.bookTitle = bookTitle;
+  this.bookAuthor = bookAuthor;
+  this.bookPages = bookPages;
+}
+
 function formSubmit() {
   const form = document.querySelector(".form");
   form.addEventListener("submit", function (event) {
@@ -42,10 +37,19 @@ function formSubmit() {
     const bookAuthor = document.getElementById("book-author").value;
     const bookPages = document.getElementById("book-pages").value;
 
-    addBookToLibrary(new Book(bookTitle, bookAuthor, bookPages));
+    const book = new Book(bookTitle, bookAuthor, bookPages);
+
+    addBookToLibrary(book);
     this.reset(); // Reset the form
-    renderBookCard(new Book(bookTitle, bookAuthor, bookPages));
+    renderBookCard(book);
+    // library.bookList.forEach((book) => {
+    // renderBookCard(book);
+    // });
   });
+}
+
+function addBookToLibrary(book) {
+  library.bookList.push(book);
 }
 
 document.addEventListener("DOMContentLoaded", application);

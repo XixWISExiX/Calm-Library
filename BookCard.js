@@ -44,7 +44,7 @@ function cardOptionsConstruction() {
 }
 
 function addBookCardSvgs(bookCard, cardOptions) {
-  addSvgsToCard(cardOptions);
+  addSvgsToCard(bookCard, cardOptions);
   bookCard.appendChild(cardOptions);
 }
 
@@ -53,7 +53,7 @@ function addBookCard(bookCard) {
   container.appendChild(bookCard);
 }
 
-function addSvgsToCard(cardOptions) {
+function addSvgsToCard(bookCard, cardOptions) {
   const check = checkConstruction();
   cardOptions.appendChild(check);
 
@@ -64,6 +64,7 @@ function addSvgsToCard(cardOptions) {
   cardOptions.appendChild(deleteBtn);
 
   bookCardDisplayCheck(check, minus);
+  bookCardDeleteCheck(bookCard, deleteBtn);
 }
 
 function checkConstruction() {
@@ -140,5 +141,12 @@ function bookCardDisplayCheck(check, minus) {
   minus.addEventListener("click", function () {
     minus.style.display = "none";
     check.style.display = "block";
+  });
+}
+
+function bookCardDeleteCheck(bookCard, deleteBtn) {
+  deleteBtn.addEventListener("click", function () {
+    // bookCard.style.display = "none";
+    bookCard.remove();
   });
 }
