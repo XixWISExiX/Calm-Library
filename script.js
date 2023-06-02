@@ -1,9 +1,10 @@
 import { body, sidebar, logo } from "./DOMref.js";
+import { renderBookCard } from "./BookCard.js";
 
 function application() {
   sidebarHeightResize();
   formSubmit();
-  ifBookReadDisplay();
+  bookReadDisplay();
 }
 
 let library = (function () {
@@ -11,8 +12,8 @@ let library = (function () {
   return { bookList };
 })();
 
-function Book(bookName, bookAuthor, bookPages) {
-  this.bookName = bookName;
+function Book(bookTitle, bookAuthor, bookPages) {
+  this.bookTitle = bookTitle;
   this.bookAuthor = bookAuthor;
   this.bookPages = bookPages;
 }
@@ -37,35 +38,14 @@ function formSubmit() {
   form.addEventListener("submit", function (event) {
     event.preventDefault(); // Prevent form submission
 
-    const bookName = document.getElementById("book-title").value;
+    const bookTitle = document.getElementById("book-title").value;
     const bookAuthor = document.getElementById("book-author").value;
     const bookPages = document.getElementById("book-pages").value;
 
-    addBookToLibrary(new Book(bookName, bookAuthor, bookPages));
-    // library.bookList.forEach((book) => {
-    //   console.log("Title: " + book.bookName);
-    //   console.log("Author: " + book.bookAuthor);
-    //   console.log("Pages: " + book.bookPages);
-    // });
+    addBookToLibrary(new Book(bookTitle, bookAuthor, bookPages));
     this.reset(); // Reset the form
+    renderBookCard(new Book(bookTitle, bookAuthor, bookPages));
   });
 }
-
-// TODO make inputs have patterns
-function ifBookReadDisplay() {
-  const svg1 = document.getElementById("check");
-  const svg2 = document.getElementById("minus");
-
-  svg1.addEventListener("click", function () {
-    svg1.style.display = "none";
-    svg2.style.display = "block";
-  });
-
-  svg2.addEventListener("click", function () {
-    svg2.style.display = "none";
-    svg1.style.display = "block";
-  });
-}
-// TODO make cards for books
 
 document.addEventListener("DOMContentLoaded", application);
