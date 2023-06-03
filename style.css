@@ -109,18 +109,30 @@
 
 .book-card-title {
   display: flex;
+  white-space: nowrap;
   justify-content: center;
+  align-items: center;
   width: 7.3rem;
   margin-top: -2rem;
   padding: 1rem 8.25rem;
   background-color: white;
   border-radius: 1rem;
   font-size: 1.7rem;
+  min-height: 2.5rem;
   font-weight: 600;
 }
 
 .book-card-author {
   margin-top: 0.5rem;
+}
+
+.book-card-author,
+.book-card-pages {
+  display: flex;
+  white-space: nowrap;
+  justify-content: center;
+  align-items: center;
+  min-height: 2.5rem;
 }
 
 .book-card-author,
