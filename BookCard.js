@@ -1,5 +1,6 @@
 // TODO make card stay upon refresh
 import { library, refreshCounter } from "./script.js";
+import { container } from "./DOMref.js";
 
 export function renderBookCard(book) {
   const bookCard = bookCardConstruction();
@@ -50,8 +51,9 @@ function addBookCardSvgs(bookCard, cardOptions) {
 }
 
 function addBookCard(bookCard) {
-  const container = document.querySelector(".main-container");
   container.appendChild(bookCard);
+  let containerContent = container.innerHTML;
+  localStorage.setItem("cards", containerContent);
 }
 
 function addSvgsToCard(bookCard, cardOptions) {
@@ -64,8 +66,7 @@ function addSvgsToCard(bookCard, cardOptions) {
   const deleteBtn = deleteBtnConstruction();
   cardOptions.appendChild(deleteBtn);
 
-  bookCardDisplayCheck(check, minus);
-  bookCardDeleteCheck(bookCard, deleteBtn, check);
+  buttonHandlers(bookCard, check, minus, deleteBtn);
 }
 
 function checkConstruction() {
@@ -133,6 +134,11 @@ function setSvgPath(attributeFunction) {
   return svgPath;
 }
 
+export function buttonHandlers(bookCard, check, minus, deleteBtn) {
+  bookCardDisplayCheck(check, minus);
+  bookCardDeleteCheck(bookCard, deleteBtn, check);
+}
+
 function bookCardDisplayCheck(check, minus) {
   if (library.newestBookCardChecked) {
     check.style.display = "none";
@@ -143,6 +149,8 @@ function bookCardDisplayCheck(check, minus) {
     check.style.display = "none";
     minus.style.display = "block";
     library.numberOfBooksRead++;
+    containerUpdateStorage();
+    localStorage.setItem("booksRead", library.numberOfBooksRead);
     refreshCounter();
   });
 
@@ -150,6 +158,8 @@ function bookCardDisplayCheck(check, minus) {
     minus.style.display = "none";
     check.style.display = "block";
     library.numberOfBooksRead--;
+    containerUpdateStorage();
+    localStorage.setItem("booksRead", library.numberOfBooksRead);
     refreshCounter();
   });
 }
@@ -157,9 +167,17 @@ function bookCardDisplayCheck(check, minus) {
 function bookCardDeleteCheck(bookCard, deleteBtn, check) {
   deleteBtn.addEventListener("click", function () {
     bookCard.remove();
+    containerUpdateStorage();
     if (check.style.display === "none") {
       library.numberOfBooksRead--;
+      localStorage.setItem("booksRead", library.numberOfBooksRead);
     }
     refreshCounter();
   });
+}
+
+function containerUpdateStorage() {
+  let containerContent = container.innerHTML;
+  localStorage.setItem("cards", containerContent);
+  return container;
 }

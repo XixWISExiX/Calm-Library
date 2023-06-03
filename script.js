@@ -1,9 +1,43 @@
-import { body, sidebar, logo } from "./DOMref.js";
-import { renderBookCard } from "./BookCard.js";
+import { sidebar, logo, container, bookNumberDisplay } from "./DOMref.js";
+import { renderBookCard, buttonHandlers } from "./BookCard.js";
 
 function application() {
+  loadDataFromLocalStorage();
   sidebarHeightResize();
   formSubmit();
+}
+
+function loadDataFromLocalStorage() {
+  // localStorage.clear();
+  let savedBookCards = localStorage.getItem("cards");
+  if (savedBookCards) {
+    container.innerHTML = savedBookCards;
+    activateBookCardButtons();
+    renderNumberOfBooksRead();
+  }
+}
+
+function activateBookCardButtons() {
+  const bookCards = document.querySelectorAll(".book-card");
+  bookCards.forEach((bookCard) => {
+    console.log(bookCard);
+    bookCard.addEventListener("click", buttonHandlersLocalStorage(bookCard));
+  });
+}
+
+function buttonHandlersLocalStorage(bookCard) {
+  const check = bookCard.querySelector(".check");
+  const minus = bookCard.querySelector(".minus");
+  const deleteBtn = bookCard.querySelector(".delete-btn");
+  buttonHandlers(bookCard, check, minus, deleteBtn);
+}
+
+function renderNumberOfBooksRead() {
+  let savedNumberOfBooksRead = localStorage.getItem("booksRead");
+  if (savedNumberOfBooksRead)
+    library.numberOfBooksRead = savedNumberOfBooksRead;
+  bookNumberDisplay.innerHTML =
+    "Number of Books Read: " + savedNumberOfBooksRead;
 }
 
 function sidebarHeightResize() {
@@ -18,10 +52,9 @@ function sidebarHeightResize() {
 }
 
 export let library = (function () {
-  // let bookList = [];
   let numberOfBooksRead = 0;
   let newestBookCardChecked = false;
-  return { numberOfBooksRead };
+  return { numberOfBooksRead, newestBookCardChecked };
 })();
 
 function Book(bookTitle, bookAuthor, bookPages) {
@@ -45,12 +78,9 @@ function formSubmit() {
 
     const book = new Book(bookTitle, bookAuthor, numberOfBookPages);
 
-    // addBookToLibrary(book);
     this.reset(); // Reset the form
+
     renderBookCard(book);
-    // library.bookList.forEach((book) => {
-    // renderBookCard(book);
-    // });
     refreshCounter();
   });
 }
@@ -68,22 +98,18 @@ function checkResultBox() {
   const checkbox = document.getElementById("book-question");
   if (checkbox.checked) {
     library.numberOfBooksRead++;
+    localStorage.setItem("booksRead", library.numberOfBooksRead);
     return true;
   }
   return false;
 }
 
-// function addBookToLibrary(book) {
-//   library.bookList.push(book);
-// }
-
 export function refreshCounter() {
   const booksReadDisplay = document.getElementsByClassName(
     "book-number-display"
   );
-  const booksReadDisplayText = "Number of Books Read: ";
   booksReadDisplay[0].innerText =
-    booksReadDisplayText + library.numberOfBooksRead;
+    "Number of Books Read: " + library.numberOfBooksRead;
 }
 
 document.addEventListener("DOMContentLoaded", application);
