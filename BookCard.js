@@ -1,4 +1,5 @@
 // TODO make card stay upon refresh
+import { library, refreshCounter } from "./script.js";
 
 export function renderBookCard(book) {
   const bookCard = bookCardConstruction();
@@ -64,13 +65,13 @@ function addSvgsToCard(bookCard, cardOptions) {
   cardOptions.appendChild(deleteBtn);
 
   bookCardDisplayCheck(check, minus);
-  bookCardDeleteCheck(bookCard, deleteBtn);
+  bookCardDeleteCheck(bookCard, deleteBtn, check);
 }
 
 function checkConstruction() {
   const check = setSvgAttributes("check");
 
-  const titleCheck = setSvgTitle("Book is Read");
+  const titleCheck = setSvgTitle("Make Book Read");
   check.appendChild(titleCheck);
 
   const pathCheck = setSvgPath(
@@ -83,7 +84,7 @@ function checkConstruction() {
 function minusConstruction() {
   const minus = setSvgAttributes("minus");
 
-  const titleMinus = setSvgTitle("Book is not Read");
+  const titleMinus = setSvgTitle("Undo Book Read");
   minus.appendChild(titleMinus);
 
   const pathMinus = setSvgPath(
@@ -133,19 +134,32 @@ function setSvgPath(attributeFunction) {
 }
 
 function bookCardDisplayCheck(check, minus) {
+  if (library.newestBookCardChecked) {
+    check.style.display = "none";
+    minus.style.display = "block";
+  }
+
   check.addEventListener("click", function () {
     check.style.display = "none";
     minus.style.display = "block";
+    library.numberOfBooksRead++;
+    refreshCounter();
   });
 
   minus.addEventListener("click", function () {
     minus.style.display = "none";
     check.style.display = "block";
+    library.numberOfBooksRead--;
+    refreshCounter();
   });
 }
 
-function bookCardDeleteCheck(bookCard, deleteBtn) {
+function bookCardDeleteCheck(bookCard, deleteBtn, check) {
   deleteBtn.addEventListener("click", function () {
     bookCard.remove();
+    if (check.style.display === "none") {
+      library.numberOfBooksRead--;
+    }
+    refreshCounter();
   });
 }

@@ -17,9 +17,11 @@ function sidebarHeightResize() {
   window.dispatchEvent(new Event("resize"));
 }
 
-let library = (function () {
-  let bookList = [];
-  return { bookList };
+export let library = (function () {
+  // let bookList = [];
+  let numberOfBooksRead = 0;
+  let newestBookCardChecked = false;
+  return { numberOfBooksRead };
 })();
 
 function Book(bookTitle, bookAuthor, bookPages) {
@@ -39,15 +41,17 @@ function formSubmit() {
     const bookTitle = document.getElementById("book-title").value;
     const bookAuthor = document.getElementById("book-author").value;
     const numberOfBookPages = bookPages.value;
+    library.newestBookCardChecked = checkResultBox();
 
     const book = new Book(bookTitle, bookAuthor, numberOfBookPages);
 
-    addBookToLibrary(book);
+    // addBookToLibrary(book);
     this.reset(); // Reset the form
     renderBookCard(book);
     // library.bookList.forEach((book) => {
     // renderBookCard(book);
     // });
+    refreshCounter();
   });
 }
 
@@ -60,8 +64,26 @@ function bookPagesErrorHandler(bookPages) {
   };
 }
 
-function addBookToLibrary(book) {
-  library.bookList.push(book);
+function checkResultBox() {
+  const checkbox = document.getElementById("book-question");
+  if (checkbox.checked) {
+    library.numberOfBooksRead++;
+    return true;
+  }
+  return false;
+}
+
+// function addBookToLibrary(book) {
+//   library.bookList.push(book);
+// }
+
+export function refreshCounter() {
+  const booksReadDisplay = document.getElementsByClassName(
+    "book-number-display"
+  );
+  const booksReadDisplayText = "Number of Books Read: ";
+  booksReadDisplay[0].innerText =
+    booksReadDisplayText + library.numberOfBooksRead;
 }
 
 document.addEventListener("DOMContentLoaded", application);

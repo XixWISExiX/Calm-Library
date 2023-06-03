@@ -29,13 +29,19 @@
   /* box-shadow: 0 -0.5rem 0.5rem 0 rgba(220, 252, 231, 0.45); */
   /* box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.15); */
   width: 25rem;
-  min-height: 35rem;
+  min-height: 39.5rem;
 }
 
 .form {
   display: flex;
   align-items: center;
   flex-direction: column;
+}
+
+.book-number-display {
+  margin-top: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .form-input-container,
@@ -47,9 +53,11 @@
 }
 
 .form-checkbox-container {
-  width: 18rem;
   flex-direction: row;
-  justify-content: space-between;
+}
+
+.form-checkbox-container label {
+  padding-left: 1rem;
 }
 
 .form-input {
@@ -134,7 +142,7 @@
   align-items: end;
 }
 
-.check {
+.minus {
   display: none;
 }
 
