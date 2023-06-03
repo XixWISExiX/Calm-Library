@@ -30,14 +30,17 @@ function Book(bookTitle, bookAuthor, bookPages) {
 
 function formSubmit() {
   const form = document.querySelector(".form");
+  const bookPages = document.getElementById("book-pages");
+  bookPagesErrorHandler(bookPages);
+
   form.addEventListener("submit", function (event) {
     event.preventDefault(); // Prevent form submission
 
     const bookTitle = document.getElementById("book-title").value;
     const bookAuthor = document.getElementById("book-author").value;
-    const bookPages = document.getElementById("book-pages").value;
+    const numberOfBookPages = bookPages.value;
 
-    const book = new Book(bookTitle, bookAuthor, bookPages);
+    const book = new Book(bookTitle, bookAuthor, numberOfBookPages);
 
     addBookToLibrary(book);
     this.reset(); // Reset the form
@@ -46,6 +49,15 @@ function formSubmit() {
     // renderBookCard(book);
     // });
   });
+}
+
+function bookPagesErrorHandler(bookPages) {
+  bookPages.oninvalid = function (e) {
+    e.target.setCustomValidity("");
+    if (!e.target.validity.valid) {
+      e.target.setCustomValidity("Please enter only positive numbers.");
+    }
+  };
 }
 
 function addBookToLibrary(book) {

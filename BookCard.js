@@ -146,7 +146,6 @@ function bookCardDisplayCheck(check, minus) {
 
 function bookCardDeleteCheck(bookCard, deleteBtn) {
   deleteBtn.addEventListener("click", function () {
-    // bookCard.style.display = "none";
     bookCard.remove();
   });
 }
