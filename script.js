@@ -1,23 +1,42 @@
-import { body, sidebar, logo } from "./DOMref.js";
+import { sidebar, logo, container, bookNumberDisplay } from "./DOMref.js";
+import { renderBookCard, buttonHandlers } from "./BookCard.js";
 
 function application() {
+  loadDataFromLocalStorage();
   sidebarHeightResize();
   formSubmit();
 }
 
-let library = (function () {
-  let bookList = [];
-  return { bookList };
-})();
-
-function Book(bookName, bookAuthor, bookPages) {
-  this.bookName = bookName;
-  this.bookAuthor = bookAuthor;
-  this.bookPages = bookPages;
+function loadDataFromLocalStorage() {
+  // localStorage.clear();
+  let savedBookCards = localStorage.getItem("cards");
+  if (savedBookCards) {
+    container.innerHTML = savedBookCards;
+    activateBookCardButtons();
+    renderNumberOfBooksRead();
+  }
 }
 
-function addBookToLibrary(book) {
-  library.bookList.push(book);
+function activateBookCardButtons() {
+  const bookCards = document.querySelectorAll(".book-card");
+  bookCards.forEach((bookCard) => {
+    bookCard.addEventListener("click", buttonHandlersLocalStorage(bookCard));
+  });
+}
+
+function buttonHandlersLocalStorage(bookCard) {
+  const check = bookCard.querySelector(".check");
+  const minus = bookCard.querySelector(".minus");
+  const deleteBtn = bookCard.querySelector(".delete-btn");
+  buttonHandlers(bookCard, check, minus, deleteBtn);
+}
+
+function renderNumberOfBooksRead() {
+  let savedNumberOfBooksRead = localStorage.getItem("booksRead");
+  if (savedNumberOfBooksRead)
+    library.numberOfBooksRead = savedNumberOfBooksRead;
+  bookNumberDisplay.innerHTML =
+    "Number of Books Read: " + savedNumberOfBooksRead;
 }
 
 function sidebarHeightResize() {
@@ -31,27 +50,64 @@ function sidebarHeightResize() {
   window.dispatchEvent(new Event("resize"));
 }
 
+export let library = (function () {
+  let numberOfBooksRead = 0;
+  let newestBookCardChecked = false;
+  return { numberOfBooksRead, newestBookCardChecked };
+})();
+
+function Book(bookTitle, bookAuthor, bookPages) {
+  this.bookTitle = bookTitle;
+  this.bookAuthor = bookAuthor;
+  this.bookPages = bookPages;
+}
+
 function formSubmit() {
   const form = document.querySelector(".form");
+  const bookPages = document.getElementById("book-pages");
+  bookPagesErrorHandler(bookPages);
+
   form.addEventListener("submit", function (event) {
     event.preventDefault(); // Prevent form submission
 
-    const bookName = document.getElementById("book-title").value;
-    const bookAuthor = document.getElementById("book-author").value;
-    const bookPages = document.getElementById("book-pages").value;
+    const bookTitle = document.getElementById("book-title");
+    const bookAuthor = document.getElementById("book-author");
+    library.newestBookCardChecked = checkResultBox();
 
-    addBookToLibrary(new Book(bookName, bookAuthor, bookPages));
-    // library.bookList.forEach((book) => {
-    //   console.log("Title: " + book.bookName);
-    //   console.log("Author: " + book.bookAuthor);
-    //   console.log("Pages: " + book.bookPages);
-    // });
+    const book = new Book(bookTitle.value, bookAuthor.value, bookPages.value);
+
     this.reset(); // Reset the form
+
+    renderBookCard(book);
+    refreshCounter();
   });
 }
 
-// TODO make inputs have patterns
+function bookPagesErrorHandler(bookPages) {
+  bookPages.oninvalid = function (e) {
+    e.target.setCustomValidity("");
+    if (!e.target.validity.valid) {
+      e.target.setCustomValidity("Please enter only positive numbers.");
+    }
+  };
+}
 
-// TODO make cards for books
+function checkResultBox() {
+  const checkbox = document.getElementById("book-question");
+  if (checkbox.checked) {
+    library.numberOfBooksRead++;
+    localStorage.setItem("booksRead", library.numberOfBooksRead);
+    return true;
+  }
+  return false;
+}
+
+export function refreshCounter() {
+  const booksReadDisplay = document.getElementsByClassName(
+    "book-number-display"
+  );
+  booksReadDisplay[0].innerText =
+    "Number of Books Read: " + library.numberOfBooksRead;
+}
 
 document.addEventListener("DOMContentLoaded", application);

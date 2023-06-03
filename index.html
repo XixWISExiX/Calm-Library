@@ -16,6 +16,7 @@
       <div class="sidebar-main-container">
         <div class="sidebar">
           <form class="form" action="#">
+            <div class="book-number-display">Number of Books Read: 0</div>
             <div class="form-input-container">
               <label for="book-title">What is the Title of the Book?</label>
               <input class="form-input" type="text" id="book-title" required />
@@ -26,7 +27,19 @@
             </div>
             <div class="form-input-container">
               <label for="book-pages">How many pages are in the book?</label>
-              <input class="form-input" type="text" id="book-pages" required />
+              <input
+                class="form-input"
+                type="text"
+                id="book-pages"
+                pattern="\d+"
+                step="1"
+                title="Please enter in positive numbers only."
+                required
+              />
+            </div>
+            <div class="form-checkbox-container">
+              <input type="checkbox" id="book-question" />
+              <label for="book-question">Have you Read this Book</label>
             </div>
             <button type="submit" class="book-btn">Add Book</button>
           </form>
