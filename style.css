@@ -26,8 +26,6 @@
   padding: 1rem;
   font-size: 1.3rem;
   background-color: #dcfce7;
-  /* box-shadow: 0 -0.5rem 0.5rem 0 rgba(220, 252, 231, 0.45); */
-  /* box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.15); */
   width: 25rem;
   min-height: 39.5rem;
 }
@@ -110,6 +108,8 @@
 }
 
 .book-card-title {
+  display: flex;
+  justify-content: center;
   width: 7.3rem;
   margin-top: -2rem;
   padding: 1rem 8.25rem;

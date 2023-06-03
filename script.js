@@ -20,7 +20,6 @@ function loadDataFromLocalStorage() {
 function activateBookCardButtons() {
   const bookCards = document.querySelectorAll(".book-card");
   bookCards.forEach((bookCard) => {
-    console.log(bookCard);
     bookCard.addEventListener("click", buttonHandlersLocalStorage(bookCard));
   });
 }
@@ -71,12 +70,11 @@ function formSubmit() {
   form.addEventListener("submit", function (event) {
     event.preventDefault(); // Prevent form submission
 
-    const bookTitle = document.getElementById("book-title").value;
-    const bookAuthor = document.getElementById("book-author").value;
-    const numberOfBookPages = bookPages.value;
+    const bookTitle = document.getElementById("book-title");
+    const bookAuthor = document.getElementById("book-author");
     library.newestBookCardChecked = checkResultBox();
 
-    const book = new Book(bookTitle, bookAuthor, numberOfBookPages);
+    const book = new Book(bookTitle.value, bookAuthor.value, bookPages.value);
 
     this.reset(); // Reset the form
 

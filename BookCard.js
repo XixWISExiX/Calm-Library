@@ -22,6 +22,7 @@ function addBookCardTitle(book, bookCard) {
   const bookCardTitle = document.createElement("div");
   bookCardTitle.className = "book-card-title";
   bookCardTitle.innerHTML = book.bookTitle;
+  resizeBookContent(bookCardTitle, 27.2, 22);
   bookCard.appendChild(bookCardTitle);
 }
 
@@ -29,6 +30,7 @@ function addBookCardAuthor(book, bookCard) {
   const bookCardAuthor = document.createElement("div");
   bookCardAuthor.className = "book-card-author";
   bookCardAuthor.innerHTML = "By: " + book.bookAuthor;
+  resizeBookContent(bookCardAuthor, 24, 18);
   bookCard.appendChild(bookCardAuthor);
 }
 
@@ -36,7 +38,16 @@ function addBookCardPages(book, bookCard) {
   const bookCardPages = document.createElement("div");
   bookCardPages.className = "book-card-pages";
   bookCardPages.innerHTML = book.bookPages + " pages";
+  resizeBookContent(bookCardPages, 24, 16);
   bookCard.appendChild(bookCardPages);
+}
+
+function resizeBookContent(element, fontSize, lengthOfCharacters) {
+  let elementLength = element.innerText.length;
+  let num = parseFloat(fontSize) * (22 / elementLength);
+  if (elementLength > lengthOfCharacters) {
+    element.style.fontSize = num + "px";
+  }
 }
 
 function cardOptionsConstruction() {
