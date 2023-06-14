@@ -1,9 +1,16 @@
-import { sidebar, logo, container, bookNumberDisplay } from "./DOMref.js";
+import {
+  sidebar,
+  logo,
+  container,
+  bookNumberDisplay,
+  navbar,
+} from "./DOMref.js";
 import { renderBookCard, buttonHandlers } from "./BookCard.js";
 
 function application() {
   loadDataFromLocalStorage();
-  sidebarHeightResize();
+  resizeWindowHandler();
+  scrollWindowHandler();
   formSubmit();
 }
 
@@ -39,19 +46,34 @@ function renderNumberOfBooksRead() {
     "Number of Books Read: " + savedNumberOfBooksRead;
 }
 
-function sidebarHeightResize() {
+function resizeWindowHandler() {
   window.addEventListener("resize", function () {
     const logoHeight = logo.offsetHeight;
     const viewportHeight = window.innerHeight;
-    const remainingHeight = viewportHeight - logoHeight * 1.31;
+    const remainingHeight = viewportHeight - logoHeight * 1.5;
     sidebar.style.height = `${remainingHeight}px`;
     // Logo Width Resize
-    const viewportWidth = window.innerWidth;
-    const remainingWidth = viewportWidth;
+    const remainingWidth = window.innerWidth;
     logo.style.width = `${remainingWidth}px`;
+
+    // Card Container Resize
+    const remainingContainerHeight = viewportHeight - logoHeight * 1.5;
+    container.style.height = `${remainingContainerHeight}`;
   });
   // Trigger the resize event initially to set the sidebar height on page load
   window.dispatchEvent(new Event("resize"));
+}
+
+function scrollWindowHandler() {
+  window.addEventListener("scroll", function () {
+    let scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    if (scrollLeft > 0) {
+      navbar.style.left = `${scrollLeft}px`;
+    } else {
+      navbar.style.left = "0";
+    }
+    console.log(scrollLeft);
+  });
 }
 
 export let library = (function () {
